@@ -1,7 +1,7 @@
 name: Server
 version: '1.0'
 main: de.itsjxsper.server.Main
-api-version: '1.21'
+api-version: '1.21.5'
 load: STARTUP
 authors: [ ItsJxsper ]
 

@@ -14,8 +14,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
-
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "lobby:main");
     }
 
     @Override
@@ -26,7 +24,6 @@ public final class Main extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
-
         getLogger().info("Server Plugin is now enabled");
     }
 
