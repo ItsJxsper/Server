@@ -1,0 +1,38 @@
+name: Build und Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JDK 21 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Gradle-Wrapper validieren
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Gradle Build durchführen
+        uses: gradle/gradle-build-action@v3
+        with:
+          arguments: build
+
+      - name: Release erstellen
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            build/libs/*-all.jar
+          draft: true
+          prerelease: false
