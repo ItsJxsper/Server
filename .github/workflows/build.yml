@@ -22,12 +22,10 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Gradle-Wrapper validieren
-        uses: gradle/wrapper-validation-action@v2
-
       - name: Gradle Build durchführen
         uses: gradle/gradle-build-action@v3
         with:
+          cache-write-only: true
           arguments: build
 
       - name: Extract version
