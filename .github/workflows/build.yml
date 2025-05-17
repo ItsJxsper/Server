@@ -34,5 +34,5 @@ jobs:
         with:
           files: |
             build/libs/*-all.jar
-          draft: true
+          draft: false
           prerelease: false
