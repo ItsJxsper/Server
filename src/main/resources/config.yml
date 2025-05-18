@@ -13,3 +13,7 @@ prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'>Server</hover></blue
 message:
   join: "<color:#49b675>+</color> <gray><player></gray>"
   quit: "<color:#ff6961>-</color> <gray><player></gray> "
+
+message.commands:
+  command.only-players: "<red>Dieser Befehl kann nur von Spielern ausgeführt werden!</red>"
+  spawn.success: "<green>Du wurdest zum World-Spawn teleportiert</green>"
