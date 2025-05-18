@@ -10,6 +10,6 @@
 
 prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'>Server</hover></blue> <gray>→</gray>"
 
-massage:
+message:
   join: "<color:#49b675>+</color> <gray><player></gray>"
   quit: "<color:#ff6961>-</color> <gray><player></gray> "

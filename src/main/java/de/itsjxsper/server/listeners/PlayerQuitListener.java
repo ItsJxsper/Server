@@ -12,8 +12,8 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        final Component massage = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("massage.quit"), Placeholder.parsed("player", event.getPlayer().getName()));
-        event.quitMessage(massage);
+        final Component message = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("message.quit"), Placeholder.parsed("player", event.getPlayer().getName()));
+        event.quitMessage(message);
     }
 
 }

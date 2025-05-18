@@ -13,8 +13,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        final Component massage = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("massage.join"), Placeholder.parsed("player", event.getPlayer().getName()));
-        event.joinMessage(massage);
+        final Component message = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("message.join"), Placeholder.parsed("player", event.getPlayer().getName()));
+        event.joinMessage(message);
     }
 
 }
