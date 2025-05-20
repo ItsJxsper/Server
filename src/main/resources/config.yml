@@ -21,3 +21,6 @@ message:
 message.commands:
   command.only-players: "<red>Dieser Befehl kann nur von Spielern ausgeführt werden!</red>"
   spawn.success: "<green>Du wurdest zum World-Spawn teleportiert</green>"
+
+database:
+  message.not-connected: "Du bist nicht mit der Datenbank verbunden!"

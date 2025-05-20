@@ -1,5 +1,6 @@
 package de.itsjxsper.server;
 
+import de.itsjxsper.server.database.DatabaseManager;
 import de.itsjxsper.server.listeners.PlayerJoinListener;
 import de.itsjxsper.server.listeners.PlayerQuitListener;
 import lombok.Getter;
@@ -11,6 +12,8 @@ public final class Main extends JavaPlugin {
     @Getter
     private static Main instance;
 
+    private final DatabaseManager databaseManager = new DatabaseManager();
+
     @Override
     public void onLoad() {
         instance = this;
@@ -21,6 +24,9 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         saveDefaultConfig();
 
+        this.databaseManager.connect();
+        this.databaseManager.createTable();
+
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoinListener(), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
@@ -30,6 +36,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        databaseManager.disconnect();
+
         getLogger().info("Server Plugin is now disabled");
     }
 }
