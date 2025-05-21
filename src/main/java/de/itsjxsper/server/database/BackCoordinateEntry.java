@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public record BackCoordinateEntry(int id, String coordinates) {
+public record BackCoordinateEntry(String coordinates) {
 
     /**
      * Converts this entry's coordinate string to a Bukkit Location
