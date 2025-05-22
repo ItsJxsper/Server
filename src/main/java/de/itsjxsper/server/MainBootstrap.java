@@ -1,5 +1,6 @@
 package de.itsjxsper.server;
 
+import de.itsjxsper.server.commands.BackCommand;
 import de.itsjxsper.server.commands.SpawnCommand;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
@@ -9,7 +10,8 @@ public class MainBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(BootstrapContext context) {
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-            commands.registrar().register(SpawnCommand.onCommand());
+            commands.registrar().register(BackCommand.createCommand());
+            commands.registrar().register(SpawnCommand.createCommand());
         });
     }
 }

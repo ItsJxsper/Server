@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.Locale;
+
 public record BackCoordinateEntry(String coordinates) {
 
     /**
@@ -13,27 +15,32 @@ public record BackCoordinateEntry(String coordinates) {
      */
     public Location toLocation() {
         try {
-            String[] parts = coordinates.split(",");
-            if (parts.length < 4) {
-                return null;
-            }
-
-            World world = Bukkit.getWorld(parts[0]);
-            double x = Double.parseDouble(parts[1]);
-            double y = Double.parseDouble(parts[2]);
-            double z = Double.parseDouble(parts[3]);
-
-            if (parts.length >= 6) {
+            String[] parts = coordinates.split("\\|");
+            if (parts.length == 4) {
+                World world = Bukkit.getWorld(parts[0]);
+                double x = Double.parseDouble(parts[1]);
+                double y = Double.parseDouble(parts[2]);
+                double z = Double.parseDouble(parts[3]);
+                return new Location(world, x, y, z);
+            } else if (parts.length == 6) {
+                World world = Bukkit.getWorld(parts[0]);
+                double x = Double.parseDouble(parts[1]);
+                double y = Double.parseDouble(parts[2]);
+                double z = Double.parseDouble(parts[3]);
                 float yaw = Float.parseFloat(parts[4]);
                 float pitch = Float.parseFloat(parts[5]);
                 return new Location(world, x, y, z, yaw, pitch);
+            } else {
+                System.err.println("Invalid coordinate format: " + coordinates);
+                return null;
             }
-
-            return new Location(world, x, y, z);
         } catch (Exception e) {
+            System.err.println("Error parsing coordinates: " + coordinates);
+            e.printStackTrace();
             return null;
         }
     }
+
 
     /**
      * Creates a string representation of a Location object for storage
@@ -45,7 +52,7 @@ public record BackCoordinateEntry(String coordinates) {
             return null;
         }
 
-        return String.format("%s,%.2f,%.2f,%.2f,%.2f,%.2f",
+         return String.format(Locale.US,"%s|%.2f|%.2f|%.2f|%.2f|%.2f",
                 location.getWorld().getName(),
                 location.getX(),
                 location.getY(),

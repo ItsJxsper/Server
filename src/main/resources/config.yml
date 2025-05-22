@@ -19,8 +19,11 @@ message:
   quit: "<color:#ff6961>-</color> <gray><player></gray> "
 
 message.commands:
+  command.no-permission: "<red>Du hast keine Berechtigung diesen Befehl auszuführen!</red>"
   command.only-players: "<red>Dieser Befehl kann nur von Spielern ausgeführt werden!</red>"
   spawn.success: "<green>Du wurdest zum World-Spawn teleportiert</green>"
+  back.success: "<green>Du wurdest zum letzten Ort teleportiert</green>"
+  back.no-back-coordinates: "<red>Du hast keine Back-Koordinaten gespeichert!</red>"
 
 database:
   message.not-connected: "Du bist nicht mit der Datenbank verbunden!"

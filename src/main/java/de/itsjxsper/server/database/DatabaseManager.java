@@ -17,7 +17,7 @@ public class DatabaseManager {
     public void connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            String URL = "jdbc:sqlite:sqlite.db";
+            String URL = "jdbc:sqlite:" + Main.getInstance().getDataFolder() + "/sqlite.db";
             this.connection = DriverManager.getConnection(URL);
         } catch (ClassNotFoundException | SQLException e) {
             Main.getInstance().getLogger().severe("Could not connect to database :" + e.getMessage());
@@ -64,6 +64,22 @@ public class DatabaseManager {
         return connection != null;
     }
 
+    @SneakyThrows
+    public boolean addPlayer(UUID playerUUID, String playerName) {
+        if (!isConnected()) return false;
+
+        String sql = "REPLACE INTO player (UUID, name) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, playerUUID.toString());
+            statement.setString(2, playerName);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            Main.getInstance().getLogger().severe("Could not add player: " + e.getMessage());
+            return false;
+        }
+    }
+
     /**
      * Adds or replaces a back coordinate entry for a player
      * @param playerUUID The UUID of the player
@@ -71,7 +87,7 @@ public class DatabaseManager {
      * @return true if successful, false otherwise
      */
     @SneakyThrows
-    public boolean addBackCoordinate(UUID playerUUID, String coordinates) {
+    private boolean addBackCoordinate(UUID playerUUID, String coordinates) {
         if (!isConnected()) return false;
 
         String sql = "REPLACE INTO backCoordinates (UUID, coordinates) VALUES (?, ?)";
