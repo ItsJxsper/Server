@@ -35,6 +35,10 @@ message.commands:
   tpa.request-sent: "<green>Teleport-Anfrage an <player> gesendet!</green>"
   tpa.request-received: "<green>Teleport-Anfrage von <player> erhalten!</green> \n <click:run_command:'/tpaccept'><gray>[<green>Accept</green>]</gray></click> <click:run_command:'/tpadeny'><gray>[<red>Deny</red>]</gray></click>"
   tpa.already-requested: "<red>Du hast bereits eine Teleport-Anfrage gesendet!</red>"
+  creeper.explosion-disabled: "<red>Die Explosion wurde deaktiviert!</red>"
+  creeper.explosion-enabled: "<green>Die Explosion wurde aktiviert!</green>"
 
 database:
   message.not-connected: "Du bist nicht mit der Datenbank verbunden!"
+
+creeper-explosion: true

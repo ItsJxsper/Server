@@ -144,6 +144,7 @@ public class TpaCommand {
         // Teleport the requester to the player
         requester.teleport(player.getLocation());
 
+
         // Send success messages
         final Component acceptMessage = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
                 ConfigUtil.getString("message.commands.tpa.request-accepted"), Placeholder.parsed("player", requester.getName()));

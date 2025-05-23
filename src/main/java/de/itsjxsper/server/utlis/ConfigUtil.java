@@ -15,4 +15,10 @@ public class ConfigUtil {
     public static boolean getBoolean(String Path) {
         return Main.getInstance().getConfig().getBoolean(Path, false);
     }
+
+    public static Object set(String Path, Object value) {
+        Main.getInstance().getConfig().set(Path, value);
+        Main.getInstance().saveConfig();
+        return value;
+    }
 }

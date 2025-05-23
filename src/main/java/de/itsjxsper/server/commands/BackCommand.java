@@ -5,7 +5,6 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.itsjxsper.server.Main;
-import de.itsjxsper.server.utlis.CommandUtil;
 import de.itsjxsper.server.utlis.ConfigUtil;
 import de.itsjxsper.server.utlis.PrefixUtil;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -19,8 +18,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BackCommand {
-
-    private static final CommandUtil commandUtil = new CommandUtil();
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("back")
@@ -74,8 +71,6 @@ public class BackCommand {
         }
 
         player.teleport(location);
-        player.setInvulnerable(true);
-        commandUtil.runInvincibilityTask(player);
         final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.back.success"));
         sender.sendMessage(message);
         return Command.SINGLE_SUCCESS;
