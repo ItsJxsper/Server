@@ -8,7 +8,7 @@
 #  \______/  \_______|\__|         \_/     \_______|\__|
 #By ItsJxsper
 
-prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'>Server</hover></blue> <gray>→</gray>"
+prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'><server></hover></blue> <gray>→</gray>"
 
 config:
   invincibility.enable: true
@@ -24,6 +24,17 @@ message.commands:
   spawn.success: "<green>Du wurdest zum World-Spawn teleportiert</green>"
   back.success: "<green>Du wurdest zum letzten Ort teleportiert</green>"
   back.no-back-coordinates: "<red>Du hast keine Back-Koordinaten gespeichert!</red>"
+  tpa.specify-player: "<red>Du musst einen Spieler angeben!</red>"
+  tpa.teleport-success: "<green>Teleport erfolgreich!</green>"
+  tpa.cannot-teleport-to-self: "<red>Du kannst dich nicht zu dir selbst teleportieren!</red>"
+  tpa.player-offline: "<red>Der Spieler ist offline!</red>"
+  tpa.no-pending-requests: "<red>Du hast keine ausstehende Teleport-Anfrage!</red>"
+  tpa.request-declined: "<red>Teleport-Anfrage von <player> abgelehnt!</red>"
+  tpa.request-rejected: "<red>Teleport-Anfrage an <player> abgelehnt!</red>"
+  tpa.request-accepted: "<green>Teleport-Anfrage von <player> akzeptiert!</green>"
+  tpa.request-sent: "<green>Teleport-Anfrage an <player> gesendet!</green>"
+  tpa.request-received: "<green>Teleport-Anfrage von <player> erhalten!</green> \n <click:run_command:'/tpaccept'><gray>[<green>Accept</green>]</gray></click> <click:run_command:'/tpadeny'><gray>[<red>Deny</red>]</gray></click>"
+  tpa.already-requested: "<red>Du hast bereits eine Teleport-Anfrage gesendet!</red>"
 
 database:
   message.not-connected: "Du bist nicht mit der Datenbank verbunden!"

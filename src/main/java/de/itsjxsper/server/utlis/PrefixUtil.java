@@ -5,6 +5,6 @@ import de.itsjxsper.server.Main;
 public class PrefixUtil {
 
     public static String getPrefix() {
-        return Main.getInstance().getConfig().getString("prefix");
+        return Main.getInstance().getConfig().getString("prefix").replace("<server>", Main.getInstance().getServer().getName());
     }
 }
