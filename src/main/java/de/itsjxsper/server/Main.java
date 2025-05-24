@@ -33,7 +33,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new PlayerQuitListener(), this);
         pluginManager.registerEvents(new PlayerDeadListener(), this);
         pluginManager.registerEvents(new PlayerTeleportListener(), this);
-        pluginManager.registerEvents(new CreeperIgniteListener(), this);
+        pluginManager.registerEvents(new EntityExplodeListener(), this);
         getLogger().info("Server Plugin is now enabled");
     }
 
