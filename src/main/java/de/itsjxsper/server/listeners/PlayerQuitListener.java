@@ -15,5 +15,4 @@ public class PlayerQuitListener implements Listener {
         final Component message = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("message.quit"), Placeholder.parsed("player", event.getPlayer().getName()));
         event.quitMessage(message);
     }
-
 }

@@ -7,9 +7,15 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PlayerDeadListener implements Listener {
 
+    private final Main main;
+
+    public PlayerDeadListener(Main main) {
+        this.main = main;
+    }
+
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Main.getInstance().getDatabaseManager().addBackCoordinate(event.getEntity().getUniqueId(), event.getEntity().getLocation());
+        this.main.getDatabaseManager().addBackCoordinate(event.getEntity().getUniqueId(), event.getEntity().getLocation());
     }
 
 }

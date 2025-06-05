@@ -12,7 +12,7 @@ public final class Main extends JavaPlugin {
     private static Main instance;
 
     @Getter
-    private final DatabaseManager databaseManager = new DatabaseManager();
+    private final DatabaseManager databaseManager = new DatabaseManager(this);
 
     @Override
     public void onLoad() {
@@ -25,15 +25,13 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         saveResource("sqlite.db", false);
 
-        this.databaseManager.connect();
-        this.databaseManager.createTable();
-
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new PlayerJoinListener(), this);
+        pluginManager.registerEvents(new PlayerJoinListener(this), this);
+        pluginManager.registerEvents(new PlayerDeadListener(this), this);
+        pluginManager.registerEvents(new PlayerTeleportListener(this), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
-        pluginManager.registerEvents(new PlayerDeadListener(), this);
-        pluginManager.registerEvents(new PlayerTeleportListener(), this);
         pluginManager.registerEvents(new EntityExplodeListener(), this);
+        pluginManager.registerEvents(new PlayerDamageListener(), this);
         getLogger().info("Server Plugin is now enabled");
     }
 

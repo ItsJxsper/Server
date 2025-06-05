@@ -8,10 +8,6 @@ public class ConfigUtil {
         return " "  + Main.getInstance().getConfig().getString(Path, PrefixUtil.getPrefix() +"<red>No Value</red>");
     }
 
-    public static int getInt(String Path) {
-        return Main.getInstance().getConfig().getInt(Path, 0);
-    }
-
     public static boolean getBoolean(String Path) {
         return Main.getInstance().getConfig().getBoolean(Path, false);
     }

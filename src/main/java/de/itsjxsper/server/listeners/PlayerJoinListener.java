@@ -13,7 +13,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class PlayerJoinListener implements Listener {
 
-    private final DatabaseManager databaseManager = Main.getInstance().getDatabaseManager();
+    private final Main main;
+    private DatabaseManager databaseManager;
+
+    public PlayerJoinListener(Main main) {
+        this.main = main;
+        this.databaseManager = main.getDatabaseManager();
+    }
 
     @EventHandler
     public void onPlayerJoin(@NotNull PlayerJoinEvent event) {

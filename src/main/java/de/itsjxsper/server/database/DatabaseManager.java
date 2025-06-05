@@ -1,7 +1,6 @@
 package de.itsjxsper.server.database;
 
 import de.itsjxsper.server.Main;
-import de.itsjxsper.server.utlis.ConfigUtil;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Location;
@@ -11,16 +10,24 @@ import java.util.UUID;
 
 public class DatabaseManager {
 
+    public final Main main;
+
     @Getter
-    private Connection connection;
+    private Connection connection;;
+
+    public DatabaseManager(Main main) {
+        this.main = main;
+        connect();
+        createTable();
+    }
 
     public void connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            String URL = "jdbc:sqlite:" + Main.getInstance().getDataFolder() + "/sqlite.db";
+            String URL = "jdbc:sqlite:" + this.main.getDataFolder() + "/sqlite.db";
             this.connection = DriverManager.getConnection(URL);
         } catch (ClassNotFoundException | SQLException e) {
-            Main.getInstance().getLogger().severe("Could not connect to database :" + e.getMessage());
+            this.main.getLogger().severe("Could not connect to database :" + e.getMessage());
         }
     }
 
@@ -44,7 +51,7 @@ public class DatabaseManager {
 
             // Create a Back-Coordinates table with UUID as a foreign key
 
-            Main.getInstance().getLogger().info("Database tables created successfully");
+            this.main.getLogger().info("Database tables created successfully");
         }
     }
 
@@ -52,13 +59,12 @@ public class DatabaseManager {
     public void disconnect() {
         if (isConnected()) {
             connection.close();
-            Main.getInstance().getLogger().info("Disconnected from database");
+           this.main.getLogger().info("Disconnected from database");
         }
     }
 
     public boolean isConnected() {
         if (connection == null) {
-            ConfigUtil.getString("message.database.not-connected");
             connect();
         }
         return connection != null;
@@ -75,7 +81,7 @@ public class DatabaseManager {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            Main.getInstance().getLogger().severe("Could not add player: " + e.getMessage());
+            this.main.getLogger().severe("Could not add player: " + e.getMessage());
             return false;
         }
     }
@@ -97,7 +103,7 @@ public class DatabaseManager {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            Main.getInstance().getLogger().severe("Could not add back coordinate: " + e.getMessage());
+            this.main.getLogger().severe("Could not add back coordinate: " + e.getMessage());
             return false;
         }
     }
@@ -112,7 +118,7 @@ public class DatabaseManager {
     public boolean addBackCoordinate(UUID playerUUID, Location location) {
         String coordinates = BackCoordinateEntry.fromLocation(location);
         if (coordinates == null) {
-            Main.getInstance().getLogger().severe("Invalid location provided");
+            this.main.getLogger().severe("Invalid location provided");
             return false;
         }
         return addBackCoordinate(playerUUID, coordinates);
@@ -133,7 +139,7 @@ public class DatabaseManager {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            Main.getInstance().getLogger().severe("Could not remove back coordinate: " + e.getMessage());
+            this.main.getLogger().severe("Could not remove back coordinate: " + e.getMessage());
             return false;
         }
     }
@@ -160,7 +166,7 @@ public class DatabaseManager {
 
             return null;
         } catch (SQLException e) {
-            Main.getInstance().getLogger().severe("Could not retrieve back coordinate: " + e.getMessage());
+            this.main.getLogger().severe("Could not retrieve back coordinate: " + e.getMessage());
             return null;
         }
     }
@@ -202,7 +208,7 @@ public class DatabaseManager {
 
             return false;
         } catch (SQLException e) {
-            Main.getInstance().getLogger().severe("Could not check if player has back coordinates: " + e.getMessage());
+            this.main.getLogger().severe("Could not check if player has back coordinates: " + e.getMessage());
             return false;
         }
     }
