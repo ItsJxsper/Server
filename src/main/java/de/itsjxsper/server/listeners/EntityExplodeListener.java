@@ -26,6 +26,7 @@ public class EntityExplodeListener implements Listener {
             particleBuilder.spawn();
             event.getEntity().playSound(Sound.sound().type(Key.key("entity.wither.shoot")).source(Sound.Source.HOSTILE).volume(100).pitch(1.0f).build());
             event.getEntity().remove();
+            event.blockList().clear();
         } // Überflüssiges Semikolon entfernt
     }
 }

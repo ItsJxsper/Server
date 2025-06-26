@@ -21,14 +21,6 @@ public class BackCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("back")
-                .requires(commandSourceStack -> {
-                    if (!commandSourceStack.getSender().hasPermission("server.back")) {
-                        final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.command.no-permission"));
-                        commandSourceStack.getSender().sendMessage(message);
-                        return false;
-                    }
-                    return true;
-                })
                 .executes(BackCommand::runBackTeleportLogicSelf)
                 .then(Commands.argument("players", ArgumentTypes.player())
                         .executes(BackCommand::runBackTeleportLogicOther))

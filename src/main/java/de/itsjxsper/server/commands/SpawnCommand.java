@@ -19,7 +19,6 @@ public class SpawnCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("spawn")
-                .requires(sender -> sender.getSender().hasPermission("server.spawn"))
                 .executes(SpawnCommand::runSpawnLogicSelf)
                 .then(Commands.argument("players", ArgumentTypes.player())
                         .executes(SpawnCommand::runSpawnLogicOther))

@@ -26,14 +26,6 @@ public class TpaCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createTpaCommand() {
         return Commands.literal("tpa")
-                .requires(commandSourceStack -> {
-                    if (!commandSourceStack.getSender().hasPermission("server.tpa")) {
-                        final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.command.no-permission"));
-                        commandSourceStack.getSender().sendMessage(message);
-                        return false;
-                    }
-                    return true;
-                })
                 .then(Commands.argument("players", ArgumentTypes.player())
                         .executes(TpaCommand::runTpa))
                 .build();

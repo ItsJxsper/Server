@@ -16,14 +16,6 @@ public class CreeperCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("creeper")
-                .requires(commandSourceStack -> {
-                    if (!commandSourceStack.getSender().hasPermission("server.back")) {
-                        final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.command.no-permission"));
-                        commandSourceStack.getSender().sendMessage(message);
-                        return false;
-                    }
-                    return true;
-                })
                 .executes(CreeperCommand::runCreeperLogic)
                 .build();
     }
