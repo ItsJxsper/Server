@@ -33,14 +33,6 @@ public class TpaCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createTpaAcceptCommand() {
         return Commands.literal("tpaccept")
-                .requires(commandSourceStack -> {
-                    if (!commandSourceStack.getSender().hasPermission("server.tpa")) {
-                        final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.command.no-permission"));
-                        commandSourceStack.getSender().sendMessage(message);
-                        return false;
-                    }
-                    return true;
-                })
                 .executes(TpaCommand::runTpaccept)
                 .build();
     }
