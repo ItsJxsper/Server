@@ -1,5 +1,6 @@
 package de.itsjxsper.server.listeners;
 
+import de.itsjxsper.server.commands.TpaCommand;
 import de.itsjxsper.server.utlis.ConfigUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -12,6 +13,8 @@ public class PlayerQuitListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        TpaCommand.getTpaRequests().remove(event.getPlayer().getUniqueId());
+
         final Component message = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("message.quit"), Placeholder.parsed("player", event.getPlayer().getName()));
         event.quitMessage(message);
     }

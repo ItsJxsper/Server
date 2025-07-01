@@ -10,6 +10,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -22,6 +23,7 @@ import java.util.UUID;
 
 public class TpaCommand {
     // Store teleport requests: key = target player UUID, value = requesting player UUID
+    @Getter
     private static final Map<UUID, UUID> tpaRequests = new HashMap<>();
 
     public static LiteralCommandNode<CommandSourceStack> createTpaCommand() {
