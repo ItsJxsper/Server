@@ -37,6 +37,8 @@ message.commands:
   tpa.already-requested: "<red>Du hast bereits eine Teleport-Anfrage gesendet!</red>"
   creeper.explosion-disabled: "<red>Die Explosion wurde deaktiviert!</red>"
   creeper.explosion-enabled: "<green>Die Explosion wurde aktiviert!</green>"
+  nightvision.enabled: "<green>Nachtsicht aktiviert!</green>"
+  nightvision.disabled: "<red>Nachtsicht deaktiviert!</red>"
 
 database:
   message.not-connected: "Du bist nicht mit der Datenbank verbunden!"

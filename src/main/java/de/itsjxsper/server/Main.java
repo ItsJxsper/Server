@@ -1,5 +1,6 @@
 package de.itsjxsper.server;
 
+import de.itsjxsper.server.commands.NightvisionCommand;
 import de.itsjxsper.server.database.DatabaseManager;
 import de.itsjxsper.server.listeners.*;
 import lombok.Getter;
@@ -33,6 +34,8 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new EntityExplodeListener(), this);
         pluginManager.registerEvents(new PlayerDamageListener(), this);
         getLogger().info("Server Plugin is now enabled");
+
+        NightvisionCommand nightvisionCommand = new NightvisionCommand(this);
     }
 
     @Override

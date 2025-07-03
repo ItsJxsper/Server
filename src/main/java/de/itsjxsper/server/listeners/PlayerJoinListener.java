@@ -9,6 +9,8 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 public class PlayerJoinListener implements Listener {
@@ -28,6 +30,10 @@ public class PlayerJoinListener implements Listener {
 
         databaseManager.addBackCoordinate(event.getPlayer().getUniqueId(), event.getPlayer().getLocation());
         databaseManager.addPlayer(event.getPlayer().getUniqueId(), event.getPlayer().getName());
+
+        if (databaseManager.getNightvision(event.getPlayer().getUniqueId())) {
+            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false));
+        }
     }
 
 }

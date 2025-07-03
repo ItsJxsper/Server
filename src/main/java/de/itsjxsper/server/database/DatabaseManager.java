@@ -49,6 +49,11 @@ public class DatabaseManager {
                     "FOREIGN KEY (UUID) REFERENCES player(UUID)" +
                     ")");
 
+            statement.execute("CREATE TABLE  IF NOT EXISTS nightvision (" +
+                    "UUID VARCHAR(36) PRIMARY KEY," +
+                    "enabled BOOLEAN DEFAULT FALSE," +
+                    "FOREIGN KEY (UUID) REFERENCES player(UUID)" +
+                    ")");
             // Create a Back-Coordinates table with UUID as a foreign key
 
             this.main.getLogger().info("Database tables created successfully");
@@ -87,6 +92,51 @@ public class DatabaseManager {
     }
 
     /**
+     * Sets the night vision status for a player
+     * @param playerUUID The UUID of the player
+     * @param enabled true to enable night vision, false to disable
+     * @return true if successful, false otherwise
+     */
+    @SneakyThrows
+    public boolean setNightvision(UUID playerUUID, boolean enabled) {
+        if (!isConnected()) return false;
+
+        String sql = "REPLACE INTO nightvision (UUID, enabled) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, playerUUID.toString());
+            statement.setBoolean(2, enabled);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            this.main.getLogger().severe("Could not set night vision: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Retrieves the night vision status for a player
+     * @param playerUUID The UUID of the player
+     * @return true if night vision is enabled, false otherwise
+     */
+    public boolean getNightvision(UUID playerUUID) {
+        if (!isConnected()) return false;
+
+        String sql = "SELECT enabled FROM nightvision WHERE UUID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, playerUUID.toString());
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getBoolean("enabled");
+            }
+            return false; // Default to false if not found
+        } catch (SQLException e) {
+            this.main.getLogger().severe("Could not retrieve night vision status: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Adds or replaces a back coordinate entry for a player
      * @param playerUUID The UUID of the player
      * @param coordinates The coordinates as a string
@@ -107,6 +157,7 @@ public class DatabaseManager {
             return false;
         }
     }
+
 
     /**
      * Adds a back coordinate entry for a player using a Bukkit Location
