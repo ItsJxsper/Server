@@ -3,6 +3,8 @@ package de.itsjxsper.server.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.itsjxsper.server.Main;
 import de.itsjxsper.server.utlis.ConfigUtil;
@@ -17,13 +19,16 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.CompletableFuture;
+
 public class BackCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("back")
                 .executes(BackCommand::runBackTeleportLogicSelf)
                 .then(Commands.argument("players", ArgumentTypes.player())
-                        .executes(BackCommand::runBackTeleportLogicOther))
+                        .executes(BackCommand::runBackTeleportLogicOther)
+                        .suggests(BackCommand::getAmountSuggestions))
                 .build();
     }
 
@@ -66,5 +71,12 @@ public class BackCommand {
         final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.back.success"));
         sender.sendMessage(message);
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static CompletableFuture<Suggestions> getAmountSuggestions(final CommandContext<CommandSourceStack> ctx, final SuggestionsBuilder builder) {
+        for (Player player : Main.getInstance().getServer().getOnlinePlayers()) {
+            builder.suggest(player.getName()); // jeder Spielername einzeln vorgeschlagen
+        }
+        return builder.buildFuture();
     }
 }

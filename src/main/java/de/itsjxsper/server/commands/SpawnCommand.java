@@ -3,7 +3,10 @@ package de.itsjxsper.server.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import de.itsjxsper.server.Main;
 import de.itsjxsper.server.utlis.ConfigUtil;
 import de.itsjxsper.server.utlis.PrefixUtil;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -15,13 +18,16 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.CompletableFuture;
+
 public class SpawnCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("spawn")
                 .executes(SpawnCommand::runSpawnLogicSelf)
                 .then(Commands.argument("players", ArgumentTypes.player())
-                        .executes(SpawnCommand::runSpawnLogicOther))
+                        .executes(SpawnCommand::runSpawnLogicOther)
+                        .suggests(SpawnCommand::getAmountSuggestions))
                 .build();
     }
 
@@ -57,5 +63,12 @@ public class SpawnCommand {
         final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.spawn.success"));
         sender.sendMessage(message);
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static CompletableFuture<Suggestions> getAmountSuggestions(final CommandContext<CommandSourceStack> ctx, final SuggestionsBuilder builder) {
+        for (Player player : Main.getInstance().getServer().getOnlinePlayers()) {
+            builder.suggest(player.getName()); // jeder Spielername einzeln vorgeschlagen
+        }
+        return builder.buildFuture();
     }
 }

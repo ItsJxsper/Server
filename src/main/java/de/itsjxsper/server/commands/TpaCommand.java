@@ -3,6 +3,8 @@ package de.itsjxsper.server.commands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import de.itsjxsper.server.Main;
 import de.itsjxsper.server.utlis.ConfigUtil;
@@ -21,6 +23,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class TpaCommand {
     // Store teleport requests: key = target player UUID, value = requesting player UUID
@@ -33,14 +36,16 @@ public class TpaCommand {
     public static LiteralCommandNode<CommandSourceStack> createTpaCommand() {
         return Commands.literal("tpa")
                 .then(Commands.argument("players", ArgumentTypes.player())
-                        .executes(TpaCommand::runTpa))
+                        .executes(TpaCommand::runTpa)
+                        .suggests(TpaCommand::getAmountSuggestions))
                 .build();
     }
 
     public static LiteralCommandNode<CommandSourceStack> createTpaHereCommand() {
         return Commands.literal("tpahere")
                 .then(Commands.argument("players", ArgumentTypes.player())
-                        .executes(TpaCommand::runTpaHere))
+                        .executes(TpaCommand::runTpaHere)
+                        .suggests(TpaCommand::getAmountSuggestions))
                 .build();
     }
 
@@ -241,5 +246,12 @@ public class TpaCommand {
         tpaRequests.remove(player.getUniqueId());
 
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static CompletableFuture<Suggestions> getAmountSuggestions(final CommandContext<CommandSourceStack> ctx, final SuggestionsBuilder builder) {
+        for (Player player : Main.getInstance().getServer().getOnlinePlayers()) {
+            builder.suggest(player.getName()); // jeder Spielername einzeln vorgeschlagen
+        }
+        return builder.buildFuture();
     }
 }

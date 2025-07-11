@@ -55,7 +55,6 @@ public class NightvisionCommand {
             player.sendMessage(message);
         }
 
-
         return Command.SINGLE_SUCCESS;
     }
 }
