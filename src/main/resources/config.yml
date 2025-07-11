@@ -8,10 +8,10 @@
 #  \______/  \_______|\__|         \_/     \_______|\__|
 #By ItsJxsper
 
-prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'><server></hover></blue> <gray>→</gray>"
+prefix: "<blue><hover:show_text:'<gray>By ItsJxsper</gray>'><server></hover></blue> <gray>→</gray> "
 
 config:
-  invincibility.enable: true
+  invincibility.enabled: true
   invincibility.duration: 5
 
 message:
@@ -33,14 +33,12 @@ message.commands:
   tpa.request-rejected: "<red>Teleport-Anfrage an <player> abgelehnt!</red>"
   tpa.request-accepted: "<green>Teleport-Anfrage von <player> akzeptiert!</green>"
   tpa.request-sent: "<green>Teleport-Anfrage an <player> gesendet!</green>"
-  tpa.request-received: "<green>Teleport-Anfrage von <player> erhalten!</green> \n <click:run_command:'/tpaccept'><gray>[<green>Accept</green>]</gray></click> <click:run_command:'/tpadeny'><gray>[<red>Deny</red>]</gray></click>"
+  tpa.request-received: "<green>Teleport-Anfrage von <player> erhalten!</green> \n <click:run_command:'/tpaaccept'><gray>[<green>Accept</green>]</gray></click> <click:run_command:'/tpadeny'><gray>[<red>Deny</red>]</gray></click>"
   tpa.already-requested: "<red>Du hast bereits eine Teleport-Anfrage gesendet!</red>"
-  creeper.explosion-disabled: "<red>Die Explosion wurde deaktiviert!</red>"
-  creeper.explosion-enabled: "<green>Die Explosion wurde aktiviert!</green>"
+  tpahere.request-sent: "<green>Teleport-Here Anfrage an <player> gesendet!</green>"
+  tpahere.request-received: "<green>Teleport-Here Anfrage von <player> erhalten!</green> \n <click:run_command:'/tpaccept'><gray>[<green>Accept</green>]</gray></click> <click:run_command:'/tpdeny'><gray>[<red>Deny</red>]</gray></click>"
   nightvision.enabled: "<green>Nachtsicht aktiviert!</green>"
   nightvision.disabled: "<red>Nachtsicht deaktiviert!</red>"
 
 database:
   message.not-connected: "Du bist nicht mit der Datenbank verbunden!"
-
-creeper-explosion: true

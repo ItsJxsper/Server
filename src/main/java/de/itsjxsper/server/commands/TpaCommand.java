@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
+import de.itsjxsper.server.Main;
 import de.itsjxsper.server.utlis.ConfigUtil;
 import de.itsjxsper.server.utlis.PrefixUtil;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -26,6 +27,9 @@ public class TpaCommand {
     @Getter
     private static final Map<UUID, UUID> tpaRequests = new HashMap<>();
 
+    @Getter
+    private static final Map<UUID, Boolean> isTpaHere = new HashMap<>();
+
     public static LiteralCommandNode<CommandSourceStack> createTpaCommand() {
         return Commands.literal("tpa")
                 .then(Commands.argument("players", ArgumentTypes.player())
@@ -33,15 +37,22 @@ public class TpaCommand {
                 .build();
     }
 
+    public static LiteralCommandNode<CommandSourceStack> createTpaHereCommand() {
+        return Commands.literal("tpahere")
+                .then(Commands.argument("players", ArgumentTypes.player())
+                        .executes(TpaCommand::runTpaHere))
+                .build();
+    }
+
     public static LiteralCommandNode<CommandSourceStack> createTpaAcceptCommand() {
-        return Commands.literal("tpaccept")
-                .executes(TpaCommand::runTpaccept)
+        return Commands.literal("tpaaccept")
+                .executes(TpaCommand::runTpaAccept)
                 .build();
     }
 
     public static LiteralCommandNode<CommandSourceStack> createTpaDenyCommand() {
         return Commands.literal("tpadeny")
-                .executes(TpaCommand::runTpdeny)
+                .executes(TpaCommand::TpaDeny)
                 .build();
     }
 
@@ -89,7 +100,49 @@ public class TpaCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int runTpaccept(CommandContext<CommandSourceStack> ctx) {
+    private static int runTpaHere(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
+        CommandSender sender = ctx.getSource().getSender();
+
+        if (!(sender instanceof Player player)) {
+            final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
+                    ConfigUtil.getString("message.commands.command.only-players"));
+            sender.sendMessage(message);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        if (tpaRequests.containsKey(player.getUniqueId())) {
+            final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
+                    ConfigUtil.getString("message.commands.tpa.already-requested"));
+            sender.sendMessage(message);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        final PlayerSelectorArgumentResolver playerSelectorArgumentResolver = ctx.getArgument("players", PlayerSelectorArgumentResolver.class);
+        final Player target = playerSelectorArgumentResolver.resolve(ctx.getSource()).getFirst();
+
+        if (player.equals(target)) {
+            final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
+                    ConfigUtil.getString("message.commands.tpa.cannot-teleport-to-self"));
+            sender.sendMessage(message);
+            return Command.SINGLE_SUCCESS;
+        }
+
+        tpaRequests.put(target.getUniqueId(), player.getUniqueId());
+        isTpaHere.put(target.getUniqueId(), true);
+
+        final Component requestMessage = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
+                ConfigUtil.getString("message.commands.tpahere.request-sent"), Placeholder.parsed("player", target.getName()));
+        sender.sendMessage(requestMessage);
+
+        final Component targetMessage = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
+                ConfigUtil.getString("message.commands.tpahere.request-received"), Placeholder.parsed("player", player.getName()));
+        target.sendMessage(targetMessage);
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private static int runTpaAccept(CommandContext<CommandSourceStack> ctx) {
         CommandSender sender = ctx.getSource().getSender();
 
         if (!(sender instanceof Player player)) {
@@ -119,8 +172,22 @@ public class TpaCommand {
         }
 
         // Teleport the requester to the player
-        requester.teleport(player.getLocation());
+        boolean here = isTpaHere.getOrDefault(player.getUniqueId(), false);
+        if (here) {
+            player.teleport(requester.getLocation());
+        } else {
+            requester.teleport(player.getLocation());
+        }
 
+        // Set the requester invulnerable for a short duration if configured
+        if (ConfigUtil.getBoolean("config.invincibility.enabled")) {
+            requester.setInvulnerable(true);
+            requester.getServer().getScheduler().runTaskLater(Main.getInstance(), () -> {
+                if (requester.isOnline()) {
+                    requester.setInvulnerable(false);
+                }
+            }, ConfigUtil.getInt("config.invincibility.duration") * 20L);
+        }
 
         // Send success messages
         final Component acceptMessage = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() +
@@ -137,7 +204,7 @@ public class TpaCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int runTpdeny(CommandContext<CommandSourceStack> ctx) {
+    private static int TpaDeny(CommandContext<CommandSourceStack> ctx) {
         CommandSender sender = ctx.getSource().getSender();
 
         if (!(sender instanceof Player player)) {

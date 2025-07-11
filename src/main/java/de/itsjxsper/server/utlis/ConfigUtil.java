@@ -5,7 +5,11 @@ import de.itsjxsper.server.Main;
 public class ConfigUtil {
 
     public static String getString(String Path) {
-        return Main.getInstance().getConfig().getString(Path, PrefixUtil.getPrefix() +"<red>No Value</red>");
+        return Main.getInstance().getConfig().getString(Path, "<red>No Value</red>");
+    }
+
+    public static int getInt(String Path) {
+        return Main.getInstance().getConfig().getInt(Path, 0);
     }
 
     public static boolean getBoolean(String Path) {

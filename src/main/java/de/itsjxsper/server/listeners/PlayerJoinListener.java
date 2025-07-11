@@ -32,7 +32,7 @@ public class PlayerJoinListener implements Listener {
         databaseManager.addPlayer(event.getPlayer().getUniqueId(), event.getPlayer().getName());
 
         if (databaseManager.getNightvision(event.getPlayer().getUniqueId())) {
-            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false));
+            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 0, false, false));
         }
     }
 

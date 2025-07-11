@@ -14,6 +14,7 @@ public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         TpaCommand.getTpaRequests().remove(event.getPlayer().getUniqueId());
+        TpaCommand.getIsTpaHere().remove(event.getPlayer().getUniqueId());
 
         final Component message = MiniMessage.miniMessage().deserialize(ConfigUtil.getString("message.quit"), Placeholder.parsed("player", event.getPlayer().getName()));
         event.quitMessage(message);

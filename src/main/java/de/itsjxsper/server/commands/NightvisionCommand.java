@@ -50,7 +50,7 @@ public class NightvisionCommand {
             player.sendMessage(message);
         } else {
             databaseManager.setNightvision(player.getUniqueId(), true);
-            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 0, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 0, false, false));
             final Component message = MiniMessage.miniMessage().deserialize(PrefixUtil.getPrefix() + ConfigUtil.getString("message.commands.nightvision.enabled"));
             player.sendMessage(message);
         }
