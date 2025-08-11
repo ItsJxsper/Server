@@ -30,6 +30,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new PlayerJoinListener(this), this);
         pluginManager.registerEvents(new PlayerDeadListener(this), this);
         pluginManager.registerEvents(new PlayerTeleportListener(this), this);
+        pluginManager.registerEvents(new PlayerRespawnListener(this), this);
         pluginManager.registerEvents(new PlayerQuitListener(), this);
         pluginManager.registerEvents(new EntityExplodeListener(), this);
         pluginManager.registerEvents(new PlayerDamageListener(), this);
