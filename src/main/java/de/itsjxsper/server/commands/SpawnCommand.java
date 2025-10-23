@@ -24,6 +24,7 @@ public class SpawnCommand {
 
     public static LiteralCommandNode<CommandSourceStack> createCommand() {
         return Commands.literal("spawn")
+                .requires(sourceStack -> sourceStack.getSender().hasPermission("server.command.spawn"))
                 .executes(SpawnCommand::runSpawnLogicSelf)
                 .then(Commands.argument("players", ArgumentTypes.player())
                         .executes(SpawnCommand::runSpawnLogicOther)
@@ -39,7 +40,6 @@ public class SpawnCommand {
             sender.sendMessage(message);
             return Command.SINGLE_SUCCESS;
         }
-
         return runTeleportLogic(sender, player);
     }
 
@@ -67,7 +67,7 @@ public class SpawnCommand {
 
     private static CompletableFuture<Suggestions> getAmountSuggestions(final CommandContext<CommandSourceStack> ctx, final SuggestionsBuilder builder) {
         for (Player player : Main.getInstance().getServer().getOnlinePlayers()) {
-            builder.suggest(player.getName()); // jeder Spielername einzeln vorgeschlagen
+            builder.suggest(player.getName());
         }
         return builder.buildFuture();
     }

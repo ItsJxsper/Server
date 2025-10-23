@@ -37,6 +37,8 @@ public final class Main extends JavaPlugin {
         getLogger().info("Server Plugin is now enabled");
 
         NightvisionCommand nightvisionCommand = new NightvisionCommand(this);
+
+
     }
 
     @Override

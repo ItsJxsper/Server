@@ -2,7 +2,7 @@ name: Server
 version: ${version}
 bootstrapper: de.itsjxsper.server.MainBootstrap
 main: de.itsjxsper.server.Main
-api-version: '1.21.8'
+api-version: '1.21.10'
 load: STARTUP
 authors: [ ItsJxsper ]
 
