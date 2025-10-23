@@ -8,10 +8,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -49,12 +47,5 @@ public class PlayerJoinListener implements Listener {
         });
 
         event.getPlayer().getInventory().setItem(0, item);
-    }
-
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
-        player.sendMessage("You broke a " + event.getBlock().getDrops().stream().findFirst().get().getItemMeta().displayName());
     }
 }
