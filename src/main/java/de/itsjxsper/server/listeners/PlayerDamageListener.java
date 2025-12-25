@@ -2,6 +2,7 @@ package de.itsjxsper.server.listeners;
 
 import de.itsjxsper.server.utlis.ConfigUtil;
 import org.bukkit.damage.DamageSource;
+import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +18,8 @@ public class PlayerDamageListener implements Listener {
         if (!ConfigUtil.getBoolean("creeper-explosion")) {
             return;
         }
-        if (damageSource instanceof Creeper) {
+
+        if (damageSource.getDamageType().equals(DamageType.EXPLOSION) && event.getEntity() instanceof Creeper) {
             event.setCancelled(true);
         }
     }
